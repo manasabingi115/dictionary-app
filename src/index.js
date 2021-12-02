@@ -48,4 +48,5 @@ input.addEventListener("keyup", (event) => {
 
 document.querySelector("#cut").addEventListener("click", function () {
   document.getElementById("searchBox").value = "";
+  result.innerHTML = " ";
 });
