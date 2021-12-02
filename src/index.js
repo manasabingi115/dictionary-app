@@ -9,14 +9,23 @@ var audio;
 
 input.addEventListener("keyup", (event) => {
   let inWord = input.value;
+  // console.log(inWord);
+  // console.log(event);
 
   if (event.keyCode === 13) {
     console.log("Enter key is pressed");
     para.innerHTML = `<p id="searching-para">searching for ${inWord}...</p>`;
     fetch(`${url}${inWord}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error("wrong word");
+        }
+
+        return response.json();
+      })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
+
         audio = new Audio("https:" + data[0].phonetics[0].audio);
 
         result.innerHTML = `
@@ -42,11 +51,14 @@ input.addEventListener("keyup", (event) => {
         document.getElementById("audio").addEventListener("click", function () {
           audio.play();
         });
-      });
+      })
+      .catch((error) => alert("Word not found!"));
+    para.innerHTML = "";
   }
 });
 
 document.querySelector("#cut").addEventListener("click", function () {
   document.getElementById("searchBox").value = "";
   result.innerHTML = " ";
+  para.innerHTML = " ";
 });
