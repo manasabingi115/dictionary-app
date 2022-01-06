@@ -9,8 +9,6 @@ var audio;
 
 input.addEventListener("keyup", (event) => {
   let inWord = input.value;
-  // console.log(inWord);
-  // console.log(event);
 
   if (event.keyCode === 13) {
     console.log("Enter key is pressed");
@@ -20,12 +18,9 @@ input.addEventListener("keyup", (event) => {
         if (response.status !== 200) {
           throw new Error("wrong word");
         }
-
         return response.json();
       })
       .then((data) => {
-        // console.log(data);
-
         audio = new Audio("https:" + data[0].phonetics[0].audio);
 
         result.innerHTML = `
